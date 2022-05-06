@@ -1,38 +1,28 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
   name: arc-k8s-demo
+  namespace: arc-k8s-demo
   labels:
     app: arc-k8s-demo
 spec:
-  selector:
-    matchLabels:
-      app: arc-k8s-demo
-      #role: follower
-      #tier: backend
-  replicas: 3
-  template:
-    metadata:
-      labels:
-        app: arc-k8s-demo
-        #role: follower
-        #tier: backend
-    spec:
-      containers:
-      - name: arc-k8s-demo-image
-        image: "mcr.microsoft.com/dotnet/core/samples:aspnetapp"
-        ports:
-        - containerPort: 80
+  containers:
+  - image: "mcr.microsoft.com/dotnet/core/samples:aspnetapp"
+    name: arc-k8s-demo-image
+    ports:
+    - containerPort: 80
+      protocol: TCP
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: arc-k8s-demo-service
-  labels:
-    name: arc-k8s-demo-service
+  name: arc-k8s-demo
+  namespace: arc-k8s-demo
 spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
   selector:
     app: arc-k8s-demo
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
