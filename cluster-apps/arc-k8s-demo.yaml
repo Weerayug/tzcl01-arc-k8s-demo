@@ -4,18 +4,18 @@ kind: Deployment
 metadata:
   name: nginx-deployment
   labels:
-    app: aks-helloworld
+    app: nginx
 spec:
   selector:
     matchLabels:
-      app: aks-helloworld
+      app: nginx
       #role: follower
       #tier: backend
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
-        app: aks-helloworld
+        app: nginx
         #role: follower
         #tier: backend
     spec:
@@ -28,12 +28,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: arc-k8s-demo
+  name: anginx
   labels:
-    name: arc-k8s-demo
+    name: nginx
 spec:
   type: LoadBalancer
   ports:
   - port: 80
   selector:
-    app: arc-k8s-demo
+    app: nginx
