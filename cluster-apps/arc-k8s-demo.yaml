@@ -1,48 +1,33 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Namespace
 metadata:
-  name: arc-k8s-demo
+  name: aks-helloworld
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: aks-helloworld
+  namespace: aks-helloworld
+  labels:
+    app: aks-helloworld
 spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: arc-k8s-demo
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  minReadySeconds: 5 
-  template:
-    metadata:
-      labels:
-        app: arc-k8s-demo
-    spec:
-      nodeSelector:
-        kubernetes.io/arch: amd64
-        kubernetes.io/os: linux
-      containers:
-      - name: arc-k8s-demo
-        image: "mcr.microsoft.com/dotnet/core/samples:aspnetapp"
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 80
-        resources:
-          requests:
-            memory: "50Mi"
-            cpu: "125m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
+  containers:
+  - image: "mcr.microsoft.com/azuredocs/aks-helloworld:v1"
+    name: aks-helloworld-image
+    ports:
+    - containerPort: 80
+      protocol: TCP
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: arc-k8s-demo
-  labels:
-    name: arc-k8s-demo
+  name: aks-helloworld
+  namespace: aks-helloworld
 spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
   selector:
-    app: arc-k8s-demo
+    app: aks-helloworld
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
