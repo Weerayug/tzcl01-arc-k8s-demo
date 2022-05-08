@@ -5,7 +5,7 @@ metadata:
   name: demoapp
   namespace: arc-k8s-demo
 spec:
-  replicas: 3
+  replicas: 6
   selector:
     matchLabels:
       app: demoapp
@@ -14,9 +14,15 @@ spec:
       labels:
         app: demoapp
     spec:
-      containers:
-        - name: demoapp
-          image: "mcr.microsoft.com/dotnet/core/samples:aspnetapp"
-          ports:
-            - containerPort: 80
-              protocol: TCP
+     containers:
+      - name: demoapp
+        image: "mcr.microsoft.com/dotnet/core/samples:aspnetapp"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 80
