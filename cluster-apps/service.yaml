@@ -5,7 +5,7 @@ metadata:
   name: demoapp
   namespace: arc-k8s-demo
 spec:
-  type: LoadBalancer
+  type: nodeport
   selector:
     app: demoapp
   ports:
