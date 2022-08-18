@@ -5,10 +5,11 @@ metadata:
   name: demoapp
   namespace: arc-k8s-demo
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: demoapp
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
+      nodePort: 8443
