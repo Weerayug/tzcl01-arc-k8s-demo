@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: aks-helloworld
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       labels:
@@ -17,6 +17,14 @@ spec:
       containers:
         - name: aks-helloworld
           image: >-
-            mcr.microsoft.com/azuredocs/aks-helloworld:v1
+            crarcdrstranger.azurecr.io/azurearc:cmh
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
+          env:
+          - name: "ConnectionStrings__DefaultConnection"
+            value: "Data Source=oke-azsql-mi1-external-svc.arcazdata.svc.cluster.local,1433;Initial Catalog=DMSAPI;User ID=Administrator;Password=P@ssw0rd!@#"
+          - name: "ConnectionStrings__PostgreConnection"
+            value: "Server=okepssql-external-svc.arcazdata.svc.cluster.local;Database=DMSAPI;Port=5432;User Id=postgres;Password=!qazxsw21234!@#$"
+      imagePullSecrets:
+      - name: arc-secret          
