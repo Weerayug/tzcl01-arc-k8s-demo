@@ -2,27 +2,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demoapp
-  namespace: arc-k8s-demo
+  name: example
+  namespace: hello-openshift-arc
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: demoapp
+      app: aks-helloworld
+  replicas: 4
   template:
     metadata:
       labels:
-        app: demoapp
+        app: aks-helloworld
     spec:
-     containers:
-      - name: demoapp
-        image: "mcr.microsoft.com/dotnet/core/samples:aspnetapp"
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
-            cpu: 250m
-            memory: 256Mi
-        ports:
-        - containerPort: 80
+      containers:
+        - name: aks-helloworld
+          image: >-
+            mcr.microsoft.com/azuredocs/aks-helloworld:v1
+          ports:
+            - containerPort: 80
