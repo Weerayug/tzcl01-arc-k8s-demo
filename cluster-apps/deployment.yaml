@@ -2,13 +2,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: example
+  name: aks-helloworld
   namespace: hello-openshift-arc
 spec:
   selector:
     matchLabels:
       app: aks-helloworld
-  replicas: 4
+  replicas: 3
   template:
     metadata:
       labels:
