@@ -2,29 +2,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aks-helloworld
-  namespace: hello-openshift-arc
+    name: dotnetcoreapi
+    namespace: arc-core-api
 spec:
-  selector:
-    matchLabels:
-      app: aks-helloworld
-  replicas: 4
-  template:
-    metadata:
-      labels:
-        app: aks-helloworld
-    spec:
-      containers:
-        - name: aks-helloworld
-          image: >-
-            crarcdrstranger.azurecr.io/azurearc:cmh
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 80
-          env:
-          - name: "ConnectionStrings__DefaultConnection"
-            value: "Data Source=oke-azsql-mi1-external-svc.arcazdata.svc.cluster.local,1433;Initial Catalog=DMSAPI;User ID=Administrator;Password=P@ssw0rd!@#"
-          - name: "ConnectionStrings__PostgreConnection"
-            value: "Server=okepssql-external-svc.arcazdata.svc.cluster.local;Database=DMSAPI;Port=5432;User Id=postgres;Password=!qazxsw21234!@#$"
-      imagePullSecrets:
-      - name: arc-secret          
+    replicas: 1
+    selector:
+      matchLabels:
+        app: dotnetcoreapi
+    template:
+      metadata:
+        labels:
+          app: dotnetcoreapi
+      spec:
+        containers:
+          - name: dotnetcoreapi-image
+            image: crarcdrstranger.azurecr.io/webarcapi:cmf
+            imagePullPolicy: Always
+            ports:
+              - containerPort: 80
+            resources:
+              requests:
+                cpu: 1000m
+                memory: 8G
+              limits:
+                cpu: 2000m
+                memory: 16G
+            env:
+            - name: "ConnectionStrings__DefaultConnection"
+              value: "Data Source=tzcl01azsqlmi-external-svc.arcazdata.svc.cluster.local,1433;Initial Catalog=KimkimDB;User ID=Administrator;Password=ArcIsGod2@22!@"
+            - name: "ConnectionStrings__PostgreConnection"
+              value: "Server=tzclpssql-external-svc.arcazdata.svc.cluster.local;Database=KimKimDB;Port=5432;User Id=postgres;Password=ArcIsGod2@22!@"
+        imagePullSecrets:
+        - name: crarcdrstranger
