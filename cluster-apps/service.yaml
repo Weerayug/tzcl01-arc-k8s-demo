@@ -2,37 +2,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: aks-helloworld
-  namespace: hello-openshift-arc
+  name: dotnetcoreapi-service
+  namespace: arc-core-api
+  labels:
+    name: dotnetcoreapi-service
 spec:
-  selector:
-    app: aks-helloworld
+  type: LoadBalancer
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: NodePort
----
-kind: Route
-apiVersion: route.openshift.io/v1
-metadata:
-  name: aks-helloworld
-  namespace: hello-openshift-arc
-spec:
-  host: aks-helloworld-hello-openshift-arc.apps.demo.boonmee.org
-  to:
-    kind: Service
-    name: aks-helloworld
-    weight: 101
-  tls:
-    termination: edge
-  wildcardPolicy: None
-status:
-  ingress:
-    - host: aks-helloworld-hello-openshift-arc.apps.demo.boonmee.org
-      routerName: default
-      conditions:
-        - type: Admitted
-          status: 'True'
-      wildcardPolicy: None
-      routerCanonicalHostname: router-default.apps.demo.boonmee.org
+  - port: 80
+  selector:
+    app: dotnetcoreapi
